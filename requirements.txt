@@ -2,3 +2,4 @@ Django==4.2.11
 pandas
 requests
 python-dotenv
+psycopg2-binary
