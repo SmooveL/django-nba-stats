@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Команды NBA</title>
+</head>
+<body>
+    <h1>Список команд NBA</h1>
+    <ul>
+        {% for team in teams %}
+            <li>{{ team.city }} {{ team.name }} ({{ team.conference }})</li>
+        {% empty %}
+            <li>Команд пока нет. Добавьте их через админку.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
