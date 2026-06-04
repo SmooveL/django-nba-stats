@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{{ team.name }}</title>
+</head>
+<body>
+    <h1>{{ team.city }} {{ team.name }}</h1>
+    <p>Конференция: {{ team.conference }}</p>
+
+    <h2>Игроки команды:</h2>
+    <ul>
+        {% for player in players %}
+            <li>{{ player.first_name }} {{ player.last_name }} ({{ player.position }})</li>
+        {% empty %}
+            <li>В этой команде пока нет игроков.</li>
+        {% endfor %}
+    </ul>
+
+    <br>
+    <a href="{% url 'team_list' %}">Назад к списку команд</a>
+</body>
+</html>

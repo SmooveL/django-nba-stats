@@ -8,7 +8,10 @@
     <h1>Список команд NBA</h1>
     <ul>
         {% for team in teams %}
-            <li>{{ team.city }} {{ team.name }} ({{ team.conference }})</li>
+            <li>
+                <a href="{% url 'team_detail' team.id %}">{{ team.city }} {{ team.name }}</a>
+                ({{ team.conference }})
+            </li>
         {% empty %}
             <li>Команд пока нет. Добавьте их через админку.</li>
         {% endfor %}
