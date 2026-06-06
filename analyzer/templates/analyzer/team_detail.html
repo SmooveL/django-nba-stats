@@ -8,14 +8,55 @@
     <h1>{{ team.city }} {{ team.name }}</h1>
     <p>Конференция: {{ team.conference }}</p>
 
-    <h2>Игроки команды:</h2>
-    <ul>
-        {% for player in players %}
-            <li>{{ player.first_name }} {{ player.last_name }} ({{ player.position }})</li>
-        {% empty %}
-            <li>В этой команде пока нет игроков.</li>
-        {% endfor %}
-    </ul>
+    <h2>Статистика игроков:</h2>
+    <table border="1" cellpadding="5" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Игрок</th>
+                <th>Позиция</th>
+                <th>Игры</th>
+                <th>Минуты</th>
+                <th>Очки</th>
+                <th>Подборы</th>
+                <th>Передачи</th>
+                <th>Перехваты</th>
+                <th>Блоки</th>
+                <th>Потери</th>
+                <th>FG%</th>
+                <th>3P%</th>
+                <th>FT%</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for player in players %}
+                <tr>
+                    <td>{{ player.first_name }} {{ player.last_name }}</td>
+                    <td>{{ player.position }}</td>
+                    {% with stat=player.seasonstat_set.first %}
+                        {% if stat %}
+                            <td>{{ stat.games_played }}</td>
+                            <td>{{ stat.minutes }}</td>
+                            <td>{{ stat.points }}</td>
+                            <td>{{ stat.rebounds }}</td>
+                            <td>{{ stat.assists }}</td>
+                            <td>{{ stat.steals }}</td>
+                            <td>{{ stat.blocks }}</td>
+                            <td>{{ stat.turnovers }}</td>
+                            <td>{{ stat.fg_pct }}</td>
+                            <td>{{ stat.three_pct }}</td>
+                            <td>{{ stat.ft_pct }}</td>
+                        {% else %}
+                            <td colspan="11">Нет данных</td>
+                        {% endif %}
+                    {% endwith %}
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="13">В этой команде пока нет игроков.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
     <br>
     <a href="{% url 'team_list' %}">Назад к списку команд</a>
