@@ -33,3 +33,10 @@ class SeasonStat(models.Model):
     ftm = models.FloatField(default=0.0)
     fta = models.FloatField(default=0.0)
     ft_pct = models.FloatField(default=0.0)
+
+    @property
+    def per(self):
+        missed_fg = self.fga - self.fgm
+        missed_ft = self.fta - self.ftm
+        val = (self.points + self.rebounds + self.assists + self.steals + self.blocks) - (missed_fg + missed_ft + self.turnovers)
+        return round(val, 1)
