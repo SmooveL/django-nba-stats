@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{{ player.first_name }} {{ player.last_name }}</title>
+</head>
+<body>
+    <h1>{{ player.first_name }} {{ player.last_name }}</h1>
+    <p>Команда: {{ player.team.name }} | Позиция: {{ player.position }}</p>
+
+    {% if stat %}
+        <h2>Индекс эффективности (Simplified PER): {{ stat.per }}</h2>
+        <p>Игры: {{ stat.games_played }} | Минуты в среднем: {{ stat.minutes }}</p>
+
+        {% if chart %}
+            <div>
+                <img src="{{ chart }}" alt="Графический профиль игрока">
+            </div>
+        {% endif %}
+    {% else %}
+        <p>К сожалению, статистики для этого игрока пока нет.</p>
+    {% endif %}
+
+    <br>
+    <a href="{% url 'team_detail' player.team.abbreviation %}">Назад к составу команды</a>
+</body>
+</html>

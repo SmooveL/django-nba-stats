@@ -2,18 +2,17 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Команды NBA</title>
+    <title>Список команд NBA</title>
 </head>
 <body>
     <h1>Список команд NBA</h1>
     <ul>
         {% for team in teams %}
             <li>
-                <a href="{% url 'team_detail' team.id %}">{{ team.city }} {{ team.name }}</a>
-                ({{ team.conference }})
+                <a href="{% url 'team_detail' team.abbreviation %}">{{ team.city }} {{ team.name }}</a> ({{ team.conference }})
             </li>
         {% empty %}
-            <li>Команд пока нет. Добавьте их через админку.</li>
+            <li>Команды не загружены.</li>
         {% endfor %}
     </ul>
 </body>
