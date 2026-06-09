@@ -6,6 +6,39 @@
 </head>
 <body>
     <h1>Список команд NBA</h1>
+
+    <div style="margin-bottom: 20px; padding: 15px; border: 1px solid #ccc; background-color: #f9f9f9;">
+        <form method="GET" action="">
+            {{ form.as_p }}
+            <button type="submit">Найти</button>
+        </form>
+
+        {% if form.query.errors %}
+            <ul style="color: red;">
+                {% for error in form.query.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% if search_results is not None %}
+            <h3>Результаты поиска:</h3>
+            {% if search_results %}
+                <ul>
+                    {% for player in search_results %}
+                        <li>
+                            <a href="{% url 'player_detail' player.id %}">{{ player.first_name }} {{ player.last_name }}</a>
+                            ({{ player.team.abbreviation }})
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>По вашему запросу ничего не найдено.</p>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <h2>Команды:</h2>
     <ul>
         {% for team in teams %}
             <li>

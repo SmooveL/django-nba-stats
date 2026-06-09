@@ -6,12 +6,28 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 from django.shortcuts import render, get_object_or_404
+from django.db.models import Q
 from .models import Team, Player, SeasonStat
+from .forms import PlayerSearchForm
 
 
 def team_list(request):
     teams = Team.objects.all().order_by('city')
-    return render(request, 'analyzer/team_list.html', {'teams': teams})
+    form = PlayerSearchForm(request.GET or None)
+    search_results = None
+
+    if form.is_valid():
+        query = form.cleaned_data.get('query')
+        if query:
+            search_results = Player.objects.filter(
+                Q(first_name__icontains=query) | Q(last_name__icontains=query)
+            ).order_by('last_name')
+
+    return render(request, 'analyzer/team_list.html', {
+        'teams': teams,
+        'form': form,
+        'search_results': search_results
+    })
 
 
 def team_detail(request, abbr):
