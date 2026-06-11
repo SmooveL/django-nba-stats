@@ -1,41 +1,42 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>{{ team.name }}</title>
-</head>
-<body>
-    <h1>{{ team.city }} {{ team.name }}</h1>
-    <p>Конференция: {{ team.conference }}</p>
+{% extends 'analyzer/base.html' %}
 
-    <h2>Статистика игроков:</h2>
-    <table border="1" cellpadding="5" cellspacing="0">
-        <thead>
+{% block title %}{{ team.name }}{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <h1 class="display-5 fw-bold">{{ team.city }} {{ team.name }}</h1>
+    <span class="badge bg-info text-dark fs-6">Конференция: {{ team.conference }}</span>
+</div>
+
+<h2 class="mb-3">Статистика игроков:</h2>
+<div class="table-responsive shadow-sm mb-4">
+    <table class="table table-striped table-hover table-bordered align-middle mb-0">
+        <thead class="table-dark">
             <tr>
                 <th>Игрок</th>
-                <th>Позиция</th>
+                <th>Поз</th>
                 <th>PER</th>
-                <th>Игры</th>
-                <th>Минуты</th>
-                <th>Очки</th>
-                <th>Подборы</th>
-                <th>Передачи</th>
-                <th>Перехваты</th>
-                <th>Блоки</th>
-                <th>Потери</th>
+                <th>G</th>
+                <th>MIN</th>
+                <th>PTS</th>
+                <th>REB</th>
+                <th>AST</th>
+                <th>STL</th>
+                <th>BLK</th>
+                <th>TOV</th>
                 <th>FG%</th>
                 <th>3P%</th>
                 <th>FT%</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="bg-white">
             {% for player in players %}
                 <tr>
-                    <td><a href="{% url 'player_detail' player.id %}">{{ player.first_name }} {{ player.last_name }}</a></td>
+                    <td><a href="{% url 'player_detail' player.id %}" class="text-decoration-none fw-bold">{{ player.first_name }} {{ player.last_name }}</a></td>
                     <td>{{ player.position }}</td>
                     {% with stat=player.seasonstat_set.first %}
                         {% if stat %}
-                            <td style="font-weight: bold;">{{ stat.per }}</td>
+                            <td class="fw-bold text-success">{{ stat.per }}</td>
                             <td>{{ stat.games_played }}</td>
                             <td>{{ stat.minutes }}</td>
                             <td>{{ stat.points }}</td>
@@ -48,19 +49,18 @@
                             <td>{{ stat.three_pct }}</td>
                             <td>{{ stat.ft_pct }}</td>
                         {% else %}
-                            <td colspan="12">Нет данных</td>
+                            <td colspan="12" class="text-muted text-center">Нет данных</td>
                         {% endif %}
                     {% endwith %}
                 </tr>
             {% empty %}
                 <tr>
-                    <td colspan="14">В этой команде пока нет игроков.</td>
+                    <td colspan="14" class="text-center py-4">В этой команде пока нет игроков.</td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
+</div>
 
-    <br>
-    <a href="{% url 'team_list' %}">Назад к списку команд</a>
-</body>
-</html>
+<a href="{% url 'team_list' %}" class="btn btn-outline-secondary mb-5">Назад к списку команд</a>
+{% endblock %}

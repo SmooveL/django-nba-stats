@@ -1,52 +1,57 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Список команд NBA</title>
-</head>
-<body>
-    <h1>Список команд NBA</h1>
+{% extends 'analyzer/base.html' %}
 
-    <div style="margin-bottom: 20px; padding: 15px; border: 1px solid #ccc; background-color: #f9f9f9;">
-        <form method="GET" action="">
-            {{ form.as_p }}
-            <button type="submit">Найти</button>
+{% block title %}Список команд NBA{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Список команд NBA</h1>
+
+<div class="card mb-4 shadow-sm">
+    <div class="card-body">
+        <form method="GET" action="" class="d-flex gap-2 align-items-center">
+            {{ form.query }}
+            <button type="submit" class="btn btn-primary">Найти</button>
         </form>
-
         {% if form.query.errors %}
-            <ul style="color: red;">
+            <div class="text-danger mt-2">
                 {% for error in form.query.errors %}
-                    <li>{{ error }}</li>
+                    <small>{{ error }}</small>
                 {% endfor %}
-            </ul>
-        {% endif %}
-
-        {% if search_results is not None %}
-            <h3>Результаты поиска:</h3>
-            {% if search_results %}
-                <ul>
-                    {% for player in search_results %}
-                        <li>
-                            <a href="{% url 'player_detail' player.id %}">{{ player.first_name }} {{ player.last_name }}</a>
-                            ({{ player.team.abbreviation }})
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p>По вашему запросу ничего не найдено.</p>
-            {% endif %}
+            </div>
         {% endif %}
     </div>
+</div>
 
-    <h2>Команды:</h2>
-    <ul>
-        {% for team in teams %}
-            <li>
-                <a href="{% url 'team_detail' team.abbreviation %}">{{ team.city }} {{ team.name }}</a> ({{ team.conference }})
-            </li>
-        {% empty %}
-            <li>Команды не загружены.</li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+{% if search_results is not None %}
+    <h3 class="mb-3">Результаты поиска:</h3>
+    {% if search_results %}
+        <ul class="list-group mb-4 shadow-sm">
+            {% for player in search_results %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="{% url 'player_detail' player.id %}" class="text-decoration-none fw-bold">{{ player.first_name }} {{ player.last_name }}</a> 
+                    <span class="badge bg-secondary rounded-pill">{{ player.team.abbreviation }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="alert alert-warning shadow-sm">По вашему запросу ничего не найдено.</div>
+    {% endif %}
+{% endif %}
+
+<h2 class="mb-3">Команды:</h2>
+<div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+    {% for team in teams %}
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="{% url 'team_detail' team.abbreviation %}" class="text-decoration-none text-dark fw-bold">{{ team.city }} {{ team.name }}</a>
+                    </h5>
+                    <h6 class="card-subtitle mt-2 text-muted">{{ team.conference }}</h6>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col"><p>Команды не загружены.</p></div>
+    {% endfor %}
+</div>
+{% endblock %}

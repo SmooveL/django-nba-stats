@@ -1,27 +1,38 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>{{ player.first_name }} {{ player.last_name }}</title>
-</head>
-<body>
-    <h1>{{ player.first_name }} {{ player.last_name }}</h1>
-    <p>Команда: {{ player.team.name }} | Позиция: {{ player.position }}</p>
+{% extends 'analyzer/base.html' %}
 
-    {% if stat %}
-        <h2>Индекс эффективности (Simplified PER): {{ stat.per }}</h2>
-        <p>Игры: {{ stat.games_played }} | Минуты в среднем: {{ stat.minutes }}</p>
+{% block title %}{{ player.first_name }} {{ player.last_name }}{% endblock %}
 
+{% block content %}
+<div class="row mb-5">
+    <div class="col-md-5">
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <h2 class="card-title fw-bold">{{ player.first_name }} {{ player.last_name }}</h2>
+                <h6 class="card-subtitle mb-3 text-muted">{{ player.team.name }} | Позиция: {{ player.position }}</h6>
+                
+                {% if stat %}
+                    <h4 class="text-success fw-bold mb-3">Simplified PER: {{ stat.per }}</h4>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item px-0"><strong>Сыграно матчей:</strong> {{ stat.games_played }}</li>
+                        <li class="list-group-item px-0"><strong>Минуты в среднем:</strong> {{ stat.minutes }}</li>
+                    </ul>
+                {% else %}
+                    <p class="text-muted">К сожалению, статистики для этого игрока пока нет.</p>
+                {% endif %}
+                
+                <a href="{% url 'team_detail' player.team.abbreviation %}" class="btn btn-outline-primary mt-4 w-100">Вернуться к составу команды</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-7">
         {% if chart %}
-            <div>
-                <img src="{{ chart }}" alt="Графический профиль игрока">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <img src="{{ chart }}" alt="Графический профиль игрока" class="img-fluid rounded">
+                </div>
             </div>
         {% endif %}
-    {% else %}
-        <p>К сожалению, статистики для этого игрока пока нет.</p>
-    {% endif %}
-
-    <br>
-    <a href="{% url 'team_detail' player.team.abbreviation %}">Назад к составу команды</a>
-</body>
-</html>
+    </div>
+</div>
+{% endblock %}
