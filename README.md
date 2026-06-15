@@ -45,7 +45,7 @@
 
 Адаптивный каталог команд и форма поиска игроков с кастомной валидацией.
 
-[Главная страница](docs/main\_page.gif)
+![Главная страница](docs/main\_page.gif)
 
 *Поиск игрока по базе данных через Q-объекты и отработка проверки на минимальную длину запроса.*
 
@@ -55,7 +55,7 @@
 
 Полный путь пользователя: от выбора команды до детальной статистики конкретного баскетболиста и обратно.
 
-[Навигация и профиль](docs/player\_profile.gif)
+![Навигация и профиль](docs/player\_profile.gif)
 
 *Переход по связанным таблицам (команда -> состав -> профиль) и генерация радарного графика со значением Simplified PER.*
 
@@ -65,63 +65,35 @@
 
 Полный контроль над базой данных PostgreSQL через встроенную панель Django Admin.
 
-[Админ панель](docs/admin\_panel.png)
+![Админ панель](docs/admin\_panel.png)
 
 *Настроенное отображение таблиц, фильтры по конференциям/позициям и поиск.*
 
 
-
 ### Как запустить проект локально
 
+1. **Клонируйте репозиторий:**
+   ```bash
+   git clone https://github.com/SmooveL/django-nba-stats.git
+   cd django-nba-stats
 
+2. **Создайте и активируйте виртуальное окружение:**
+    ```bash
+   python -m venv venv
+    source venv/bin/activate  # для Linux/Mac
+    venv\Scripts\activate     # для Windows
+3. **Установите зависимости:**
+    ```bash
+   pip install -r requirements.txt
 
-1\. Клонируйте репозиторий:
+4. **Выполните миграции:**
+    ```bash
+   python manage.py migrate
 
-&#x20;  ```bash
+5. **Запустите сервер:**
+    ```bash
+   python manage.py runserver
 
-&#x20;  git clone \[https://github.com/SmooveL/django-nba-stats.git](https://github.com/SmooveL/django-nba-stats.git)```
-
-&#x20;  cd django-nba-stats
-
-
-
-2\. Создайте и активируйте виртуальное окружение:
-
-&#x20;  ```bash
-
-&#x20;  python -m venv venv
-
-&#x20;  source venv/bin/activate  # для Linux/Mac
-
-&#x20;  venv\\Scripts\\activate     # для Windows
-
-&#x20;  ```
-
-3\. Установите зависимости:
-
-&#x20;  ```bash
-
-&#x20;  pip install -r requirements.txt
-
-&#x20;  ```
-
-4\. Выполните миграции:
-
-&#x20;  ```bash
-
-&#x20;  python manage.py migrate
-
-&#x20;  ```
-
-5\. Запустите сервер:
-
-&#x20;  ```bash
-
-&#x20;  python manage.py runserver
-
-&#x20;  ```
-
-6\. Откройте проект в браузере:
-
-&#x20;  Перейдите по ссылке: http://127.0.0.1:8000/
-
+6. **Откройте проект в браузере:**
+    ```
+   Перейдите по ссылке: http://127.0.0.1:8000/
