@@ -6,7 +6,7 @@
 
 
 
-Ссылка на рабочий проект: деплой в процессе 
+**Ссылка на рабочий проект:** [http://51.250.102.66](http://51.250.102.66)
 
 
 
@@ -97,3 +97,31 @@
 6. **Откройте проект в браузере:**
     ```
    Перейдите по ссылке: http://127.0.0.1:8000/
+   
+### Как развернуть на сервере 
+
+Проект полностью контейнеризирован и готов к запуску на сервере через `docker-compose`.
+
+1. Клонируйте репозиторий:
+   ```bash
+   git clone https://github.com/SmooveL/django-nba-stats.git
+   cd django-nba-stats
+
+2. Создайте файл .env в корневой папке и укажите необходимые переменные окружения:
+   ```bash
+   SECRET_KEY=секретный_ключ
+   DB_NAME=nba_db
+   DB_USER=nba_user
+   DB_PASSWORD=пароль
+   DB_HOST=db
+   DB_PORT=5432
+
+3. Соберите и запустите контейнеры:
+   ```bash
+   docker compose up -d --build
+
+4. Выполните миграции, соберите статику и запустите парсер для заполнения БД:
+   ```bash
+   docker compose exec web python manage.py migrate
+   docker compose exec web python manage.py collectstatic --noinput
+   docker compose exec web python manage.py load_nba_data
